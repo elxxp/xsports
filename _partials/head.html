@@ -1,0 +1,43 @@
+<link rel="icon" href="../assets/images/logo.png" type="image/png" sizes="16x16">
+<link rel="stylesheet" href="../src/output.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/css/keyframes.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+    
+    * {
+        font-family: "Inter", serif;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input:required:invalid, input:focus:invalid {
+        background-image:url(images/green_dot.png)
+        background-position: right top;
+        border:none;
+    }
+    input:required:valid {
+        background-image:url(images/red_dot.png)
+        background-position: right top;
+        border: none;   
+    }
+    
+    input::-ms-reveal,
+    input::-ms-clear {
+        display: none;
+    }
+</style>
