@@ -18,11 +18,14 @@ $selectedJamMulai = @$_POST['jam_mulai'];
 </head>
 <body class="bg-slate-100 dark:bg-slate-950">
     <?php $current_page = "book"; require '../_partials/navbar.php'; ?> 
+    <div id="alertContainer">
 
-    <div class="mt-20 flex justify-center items-center h-fit">
+    </div>
+
+    <div class="mt-30 flex justify-center items-center h-fit">
         <div class="inner-container">
-            <h5 class="my-10 font-bold text-center text-3xl text-gray-900 dark:text-white">Booking venue</h5>
-            <form method="post">
+            <!-- <h5 class="my-10 font-bold text-center text-3xl text-gray-900 dark:text-white">Booking venue</h5> -->
+            <form method="post" action="get" id="s" enctype="multipart/form-data">
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
                     <!-- #pilih venue -->
                     <li id="s_venue" class="mb-10 ms-8">            
@@ -35,7 +38,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                         <div class="form mt-7">
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis olahraga</label>
-                                <select name="sport" id="sport" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="orderGrand()">
+                                <select name="sport" id="sport" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="null">Pilih jenis olahraga</option>
                                     <option value="sepakbola" <?php if(@$_GET['autofill_sport'] == 'sepakbola'){echo 'selected';} ?> >Sepak bola</option>
                                     <option value="futsal" <?php if(@$_GET['autofill_sport'] == 'futsal'){echo 'selected';} ?> >Futsal</option>
@@ -47,14 +50,14 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                             </div>
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lapangan</label>
-                                <select name="venue" id="venue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed disabled:text-gray-400" disabled onchange="orderGrand()">
+                                <select name="venue" id="venue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed disabled:text-gray-400" disabled>
                                     <option value="null">Pilih lapangan</option>
                                 </select>
                             </div>
 
                             <!-- card informasi lapangan -->
-                            <div class="block w-full p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                                <p><span class="text-gray-700 text-sm dark:text-gray-300">Tarif lapangan</span> <span class="text-emerald-600 text-md font-bold dark:text-emerald-500">Rp. <span id="tarif">500,000</span></span> <span class="text-gray-700 text-sm dark:text-gray-300">/ jam</span></p>
+                            <div id="tarifCard">
+
                             </div>
                         </div>
                     </li>
@@ -78,7 +81,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <i class="fa-regular fa-calendars text-slate-800 dark:text-slate-100"></i>
                                 </div>
-                                <input id="datepicker-format" datepicker datepicker-format="yyyy-mm-dd" type="text" name="tanggal" value="<?= @$tanggal ?>" class="bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih tanggal" autocomplete="off" onchange="orderGrand()"/>
+                                <input id="datepicker-format" datepicker datepicker-format="yyyy-mm-dd" type="text" name="tanggal" value="<?= @$tanggal ?>" class="bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih tanggal" autocomplete="off" onfocusout="orderGrand()"/>
                             </div>
 
                             <!-- pilih jam -->
@@ -120,15 +123,15 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                         <div class="form mt-7">
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama lengkap</label>
-                                <input type="text" name="nama" value="<?= $autofill_nama ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Budi" autocomplete="off"/>
+                                <input type="text" id="getNama" name="nama" value="<?= $autofill_nama ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Budi" autocomplete="off"/>
                             </div>
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No Telp</label>
-                                <input type="number" name="telp" value="<?= $autofill_telp ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="081-XXX-XXX" autocomplete="off"/>
+                                <input type="number" id="getTelp" name="telp" value="<?= $autofill_telp ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="081-XXX-XXX" autocomplete="off"/>
                             </div>
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                <input type="email" name="email" value="<?= $autofill_email ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="contoh@mail.com" autocomplete="off"/>
+                                <input type="email" id="getEmail" name="email" value="<?= $autofill_email ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="contoh@mail.com" autocomplete="off"/>
                             </div>
                         </div>
                     </li>
@@ -143,15 +146,15 @@ $selectedJamMulai = @$_POST['jam_mulai'];
 
                         <div class="form mt-7">
                             <ul class="grid w-full gap-2 md:grid-cols-2">
-                                <li>
-                                    <input type="radio" id="toggle-bca" name="payment" value="bca" class="hidden peer" checked/>
+                                <li onclick="paymentSwitch('bca')">
+                                    <input type="radio" id="toggle-bca" name="payment" value="bca" class="hidden peer"/>
                                     <label for="toggle-bca" class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                         <div class="block">
                                             <div class="w-full text-lg font-semibold"><img src="../assets/images/logo-bca.png" class="h-8 ms-3"></div>
                                         </div>
                                     </label>
                                 </li>
-                                <li>
+                                <li onclick="paymentSwitch('bni')">
                                     <input type="radio" id="toggle-bni" name="payment" value="bni" class="hidden peer"/>
                                     <label for="toggle-bni" class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                         <div class="block">
@@ -159,7 +162,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                                         </div>
                                     </label>
                                 </li>
-                                <li>
+                                <li onclick="paymentSwitch('mandiri')">
                                     <input type="radio" id="toggle-mandiri" name="payment" value="mandiri" class="hidden peer"/>
                                     <label for="toggle-mandiri" class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                         <div class="block">
@@ -167,7 +170,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                                         </div>
                                     </label>
                                 </li>
-                                <li>
+                                <li onclick="paymentSwitch('bri')">
                                     <input type="radio" id="toggle-bri" name="payment" value="bri" class="hidden peer"/>
                                     <label for="toggle-bri" class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 dark:peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                         <div class="block">
@@ -178,16 +181,16 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                             </ul>
 
                             <!-- card total pemesanan -->
-                            <div class="block max-w-md mt-2 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Bank BCA</h5>
-                                <h2 class="text-md tracking-tight text-gray-900 dark:text-white">No. Rekening : <strong>002459322470651 XSPORTS ID</strong></h2>
+                            <div id="cardPesanan" class="hidden block max-w-md mt-2 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" id="paymentSwitch">Bank BCA</h5>
+                                <h2 class="text-md tracking-tight text-gray-900 dark:text-white">No. Rekening : <span class="font-bold" id="paymentSwitchRek">002459322470651 XSPORTS ID</span></h2>
                                 <div id="detail">
                                     <p class="text-sm tracking-tight text-gray-900 dark:text-white"><span class="text-xl text-blue-600 font-bold">Lengkapi data formulir!</span></p>
                                 </div>
 
                                 <div class="my-7">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload bukti pembayaran</label>
-                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" disabled>
+                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" name="bukti_pembayaran" accept="image/png, image/jpeg, image/jpg"/>
                                     <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">IMG, PNG, JPG or JPEG (MAX. 10MB).</p>
                                 </div>
 
@@ -207,15 +210,16 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                         <div class="form mt-7">
                             <div class="flex">
                                 <div class="flex items-center h-5">
-                                    <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <input id="snk" aria-describedby="helper-checkbox-text" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
-                                <div class="ms-2 text-sm">
-                                    <label for="helper-checkbox" class="font-medium text-gray-900 dark:text-gray-300">Saya menyetujui <button type="button" data-modal-target="default-modal" data-modal-toggle="default-modal" class="text-blue-600 hover:underline">syarat dan ketentuan</button> yang berlaku saat ini.</label>
-                                    <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">serta memahami bahwa pembayaran bersifat <strong>non-refundable</strong> jika batal sepihak.</p>
+                                <div class="ms-2 text-sm cursor-default">
+                                    <label class="font-medium text-gray-900 dark:text-gray-300">Saya menyetujui <span class="text-blue-600 hover:underline cursor-pointer">syarat dan ketentuan</span> yang berlaku saat ini.</label>
+                                    
+                                    <p class="text-xs font-normal text-gray-500 dark:text-gray-300">serta memahami bahwa pembayaran bersifat <strong>non-refundable</strong> jika batal sepihak.</p>
                                 </div>
                             </div>
-                            <button name="book" class="text-white w-full mt-5 bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Buat pesanan</button>
-                            <!-- <button type="button" onclick="submit()" class="text-white w-full mt-5 bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Buat pesanan</button> -->
+                            <input type="hidden" name="book">
+                            <button type="button" id="buttonForm" onclick="VA()" class="text-white w-full mt-5 bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:opacity-40">Buat pesanan</button>
                         </div>
                     </li>
                 </ol>
@@ -224,40 +228,4 @@ $selectedJamMulai = @$_POST['jam_mulai'];
     </div>
 </body>
 <script src="../assets/js/main.js"></script>
-<script>
-const sportSelect = document.getElementById('sport');
-const venueSelect = document.getElementById('venue');
-
-getVenue();
-sportSelect.addEventListener('change', () => {
-    getVenue();
-});
-
-function getVenue(){
-    const sport = sportSelect.value;
-    venueSelect.innerHTML = '<option value="null">Pilih lapangan</option>';
-
-    if (sport === 'null') {
-        venueSelect.disabled = true;
-        return;
-    }
-
-    // Ambil lapangan dari server via fetch
-    fetch('../core/fetch/getVenues.php?sport=' + sport)
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.id_venue;
-                option.textContent = item.venue;
-                venueSelect.appendChild(option);
-            });
-            venueSelect.disabled = false;
-        })
-        .catch(error => {
-            console.error('Gagal ambil data lapangan:', error);
-        });
-}
-</script>
-
 </html>

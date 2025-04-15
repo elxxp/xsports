@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Jakarta');
 require '../app.php';
 
 $db = new Database();
@@ -20,14 +21,30 @@ if(!($olahraga == null || $olahraga == 'null') && !($venue == null || $venue == 
     if($tanggal != null && !($jam_mulai == null || $jam_mulai == 'null') && !($jam_selesai == null || $jam_selesai == 'null')) {
         $cek = $db->query($sql);
         if($cek->num_rows == 0) {
-            $output = '
-            <div class="flex items-center p-3 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
-                <i class="fa-regular fa-circle-check mr-2"></i>
-                <div>
-                <span class="font-medium">Yeay, jadwal yang kamu pilih tersedia!</span>
+            $requestJadwal = $tanggal . $jam_mulai;
+            // echo $requestJadwal . ' ' . new DateTime($requestJadwal) . ' ' . new DateTime;
+            if(strtotime($requestJadwal) > time()) {
+
+                $output = '
+                <div class="flex items-center p-3 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+                    <i class="fa-regular fa-circle-check mr-2"></i>
+                    <div>
+                    <span class="font-medium">Yeay, jadwal yang kamu pilih tersedia!</span>
+                    </div>
                 </div>
-            </div>
-            ';
+                ';
+
+            } else {
+                $output = '
+                <div class="flex items-center p-3 text-sm text-orange-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-orange-300 dark:border-yellow-800" role="alert">
+                    <i class="fa-regular fa-circle-exclamation mr-2"></i>
+                    <div>
+                        <span class="font-medium">Pastikan jadwal penyewaan bukan waktu lampau</span>
+                    </div>
+                </div>
+                ';
+
+            }
             
         } else {
             foreach($cek as $data) {
@@ -75,6 +92,3 @@ if(!($olahraga == null || $olahraga == 'null') && !($venue == null || $venue == 
 ?>
 
 <?= @$output ?>
-<?php 
-
-?>

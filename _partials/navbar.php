@@ -6,8 +6,8 @@ if(isset($_SESSION['user']) && isset($_SESSION['s_nama']) && isset($_SESSION['s_
     <nav class="fixed w-screen shadow-md bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 z-100 top-0">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <a href="../views" class="flex items-center">
-                <img src="../assets/images/logo.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo"/>
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">XSPORTS</span>
+                <img src="../assets/images/logo.png" class="h-8 sm:h-9" alt="Flowbite Logo"/>
+                <span class="ml-3 self-center text-xl font-semibold hidden whitespace-nowrap dark:text-white">XSPORTS</span>
             </a>
             <div class="flex items-center lg:order-2">
 
@@ -26,6 +26,11 @@ if(isset($_SESSION['user']) && isset($_SESSION['s_nama']) && isset($_SESSION['s_
                     <li>
                         <a href="me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                     </li>
+                    <?php if($_SESSION['level'] == 'admin'): ?>
+                    <li>
+                        <a href="../views/dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    <?php endif; ?>
                     <li>
                         <a href="orders" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cek pesanan</a>
                     </li>

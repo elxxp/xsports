@@ -26,6 +26,11 @@ class Database {
         }
         return $result;
     }
+
+    public function getDataVenues($id_venue){
+        $output = $this->conn->query("SELECT * FROM venues WHERE id_venue = '$id_venue'");
+        return $output->fetch_assoc();
+    }
 }
 
 class Account {
@@ -70,19 +75,27 @@ class Order {
         $this->conn = $db;
     }
 
-    public function makeOrder($name, $telephone, $email, $sport, $venue, $tanggal, $jam_mulai, $jam_selesai, $biaya) {
-        $query = "INSERT INTO " . $this->table_name . " (name, telephone, email, sport, venue, tanggal_sewa, jam_mulai, jam_selesai, biaya, status) VALUES (
-        '$name', 
+    public function makeOrder($id_user, $name, $telephone, $email, $sport, $id_venue, $tanggal_sewa, $jam_mulai, $jam_selesai, $payment, $bukti, $biaya) {
+        $query = "INSERT INTO " . $this->table_name . " (id_user, name, telephone, email, sport, id_venue, tanggal_sewa, jam_mulai, jam_selesai, payment, bukti, biaya, status) VALUES (
+        $id_user,
+        '$name',
         '$telephone',
         '$email', 
         '$sport',
-        '$venue', 
-        '$tanggal',
+        $id_venue, 
+        '$tanggal_sewa',
         '$jam_mulai',
         '$jam_selesai',
-        '$biaya',
+        '$payment',
+        '$bukti',
+        $biaya,
         'pending')";
 
+        return $this->conn->query($query);
+    }
+
+    public function cancelOrder($id_order){
+        $query = "UPDATE " . $this->table_name . " SET status = 'cancel' WHERE id_order = $id_order";
         return $this->conn->query($query);
     }
 }

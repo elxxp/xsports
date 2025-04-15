@@ -17,12 +17,18 @@ if($usermail != "" && $password != "") {
 
     if ($login->num_rows > 0) {
         $data = $login->fetch_assoc();
+        $_SESSION['s_id'] = $data['id_user'];
         $_SESSION['user'] = $data['username'];
         $_SESSION['s_nama'] = $data['name'];
         $_SESSION['s_telp'] = $data['telephone'];
         $_SESSION['s_email'] = $data['email'];
         $_SESSION['level'] = $data['level'];
-        header('Location: ../index.php');
+
+        if($data['level'] == 'manager') {
+            header('Location: ../views/dashboard');
+        } else {
+            header('Location: ../views');
+        }
     } else {
         $notif =
         '<div id="alertNontification" class="alertIn flex items-center mt-5 py-4 px-6 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
@@ -49,36 +55,6 @@ if($usermail != "" && $password != "") {
 <div class="fixed flex justify-center items-center w-full">
     <?= @$notif ?>
 </div>
-
-    <!-- <div class="flex justify-center items-center w-screen h-screen">
-        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <form method="post" id="signin" class="space-y-5">
-                <h5 class="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h5>
-                <div>
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                    <input type="email" id="controlUsername" value="<?= @$usermail ?>" name="usermail" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="exemple@mail.com" autocomplete="off"/>
-                </div>
-                <div>
-                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="password" id="controlPassword" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"/>
-                </div>
-                <div class="flex items-start">
-                    <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                            <input id="show" type="checkbox" onclick="showPassword('show', 'password')" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
-                        </div>
-                        <label for="show" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Show password</label>
-                    </div>
-
-                </div>
-                <button type="button" id="buttonLogin" onclick="submitForm('signin', 'buttonLogin', 'Masuk')" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-40">Masuk</button>
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                    Tidak memiliki akun? <a href="#" class="text-blue-700 hover:underline dark:text-blue-500">Daftar akun</a>
-                </div>
-            </form>
-        </div>
-    </div> -->
-
     <section>
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
