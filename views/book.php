@@ -25,7 +25,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
     <div class="mt-30 flex justify-center items-center h-fit">
         <div class="inner-container">
             <!-- <h5 class="my-10 font-bold text-center text-3xl text-gray-900 dark:text-white">Booking venue</h5> -->
-            <form method="post" action="get" id="s" enctype="multipart/form-data">
+            <form method="post" action="summary" id="s" enctype="multipart/form-data">
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
                     <!-- #pilih venue -->
                     <li id="s_venue" class="mb-10 ms-8">            
@@ -40,12 +40,12 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis olahraga</label>
                                 <select name="sport" id="sport" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="null">Pilih jenis olahraga</option>
-                                    <option value="sepakbola" <?php if(@$_GET['autofill_sport'] == 'sepakbola'){echo 'selected';} ?> >Sepak bola</option>
-                                    <option value="futsal" <?php if(@$_GET['autofill_sport'] == 'futsal'){echo 'selected';} ?> >Futsal</option>
-                                    <option value="voli" <?php if(@$_GET['autofill_sport'] == 'voli'){echo 'selected';} ?> >Voli</option>
-                                    <option value="tennis" <?php if(@$_GET['autofill_sport'] == 'tennis'){echo 'selected';} ?> >Tennnis</option>
-                                    <option value="badminton" <?php if(@$_GET['autofill_sport'] == 'badminton'){echo 'selected';} ?> >Badminton</option>
-                                    <option value="golf" <?php if(@$_GET['autofill_sport'] == 'golf'){echo 'selected';} ?> >Golf</option>
+                                    <option value="sepakbola">Sepak bola</option>
+                                    <option value="futsal">Futsal</option>
+                                    <option value="voli">Voli</option>
+                                    <option value="tennis">Tennnis</option>
+                                    <option value="badminton">Badminton</option>
+                                    <option value="golf">Golf</option>
                                 </select>
                             </div>
                             <div class="mb-5">
@@ -88,20 +88,20 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                             <div class="flex items-center">
                                 <select name="jam_mulai" id="jam_mulai" value="a" onchange="updateJamSelesai()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer">
                                     <option value="null">Jam mulai</option>
-                                    <option value="07:00" <?php if(@$selectedJamMulai == "07:00"){echo "selected";} ?>>07:00</option>
-                                    <option value="08:00" <?php if(@$selectedJamMulai == "08:00"){echo "selected";} ?>>08:00</option>
-                                    <option value="09:00" <?php if(@$selectedJamMulai == "09:00"){echo "selected";} ?>>09:00</option>
-                                    <option value="10:00" <?php if(@$selectedJamMulai == "10:00"){echo "selected";} ?>>10:00</option>
-                                    <option value="11:00" <?php if(@$selectedJamMulai == "11:00"){echo "selected";} ?>>11:00</option>
-                                    <option value="12:00" <?php if(@$selectedJamMulai == "12:00"){echo "selected";} ?>>12:00</option>
-                                    <option value="13:00" <?php if(@$selectedJamMulai == "13:00"){echo "selected";} ?>>13:00</option>
-                                    <option value="14:00" <?php if(@$selectedJamMulai == "14:00"){echo "selected";} ?>>14:00</option>
-                                    <option value="15:00" <?php if(@$selectedJamMulai == "15:00"){echo "selected";} ?>>15:00</option>
-                                    <option value="16:00" <?php if(@$selectedJamMulai == "16:00"){echo "selected";} ?>>16:00</option>
-                                    <option value="17:00" <?php if(@$selectedJamMulai == "17:00"){echo "selected";} ?>>17:00</option>
-                                    <option value="18:00" <?php if(@$selectedJamMulai == "18:00"){echo "selected";} ?>>18:00</option>
-                                    <option value="19:00" <?php if(@$selectedJamMulai == "19:00"){echo "selected";} ?>>19:00</option>
-                                    <option value="20:00" <?php if(@$selectedJamMulai == "20:00"){echo "selected";} ?>>20:00</option> 
+                                    <option value="07:00">07:00</option>
+                                    <option value="08:00">08:00</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                    <option value="19:00">19:00</option>
+                                    <option value="20:00">20:00</option> 
                                 </select>
                                 <span class="px-2 dark:text-white">-</span>
                                 <select name="jam_selesai" id="jam_selesai" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-400" onchange="orderGrand()" disabled>

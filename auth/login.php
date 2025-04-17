@@ -24,8 +24,8 @@ if($usermail != "" && $password != "") {
         $_SESSION['s_email'] = $data['email'];
         $_SESSION['level'] = $data['level'];
 
-        if($data['level'] == 'manager') {
-            header('Location: ../views/dashboard');
+        if($data['level'] == 'admin') {
+            header('Location: ../dashboard');
         } else {
             header('Location: ../views');
         }

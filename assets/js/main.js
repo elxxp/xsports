@@ -146,13 +146,7 @@ function VA(){
 
                                                                 }
 
-                                                        } else {
-                                                            alert.innerHTML = `<div id="alertNontification" class="alertIn fixed z-99 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1">
-                                                            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan pada server, silahkan coba lagi
-                                                            </div>`
-                                                            notifHide() 
-                                                            buttonUnloading('buttonForm', 'Buat pesanan')
-                                                        }
+                                                        } 
                                                     };
                                                     xhr.send("tanggal=" + encodeURIComponent(tanggal) + "&jam_mulai=" + encodeURIComponent(jamMulai) + "&jam_selesai=" + encodeURIComponent(jamSelesai) + "&olahraga=" + encodeURIComponent(sport) + "&venue=" + encodeURIComponent(venue));
 
@@ -283,7 +277,7 @@ function paymentSwitch(payment){
         title.innerHTML = "Bank BRI"
         rekening.innerHTML = "5876985402354802 XSPORTS BRImo"        
     } else if (payment == "bca") {
-        title.innerHTML = "Bank BRI"
+        title.innerHTML = "Bank BCA"
         rekening.innerHTML = "002459322470651 XSPORTS ID"        
     }
 }

@@ -12,6 +12,13 @@ class Database {
         if ($this->conn->connect_error) {
             die("Koneksi gagal: " . $this->conn->connect_error);
         }
+
+        $update_status_sql = $sql = "UPDATE orders 
+                                     SET status = 'complete' 
+                                     WHERE status = 'active' 
+                                     AND CONCAT(tanggal_sewa, ' ', jam_selesai) < NOW()";
+
+        $this->conn->query($update_status_sql);
     }
 
     public function get() {
@@ -30,6 +37,21 @@ class Database {
     public function getDataVenues($id_venue){
         $output = $this->conn->query("SELECT * FROM venues WHERE id_venue = '$id_venue'");
         return $output->fetch_assoc();
+    }
+
+    public function getDataUser($id_user){
+        $output = $this->conn->query("SELECT * FROM user WHERE id_user = '$id_user'");
+        return $output->fetch_assoc();
+    }
+
+    public function openVenue($id_venue){
+        $query = "UPDATE venues SET status = 'open' WHERE id_venue = $id_venue";
+        return $this->conn->query($query);
+    }
+
+    public function closeVenue($id_venue){
+        $query = "UPDATE venues SET status = 'closed' WHERE id_venue = $id_venue";
+        return $this->conn->query($query);
     }
 }
 
@@ -94,11 +116,24 @@ class Order {
         return $this->conn->query($query);
     }
 
+    public function deleteOrder($id_order) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_order = $id_order";
+        return $this->conn->query($query);
+    }
+
     public function cancelOrder($id_order){
         $query = "UPDATE " . $this->table_name . " SET status = 'cancel' WHERE id_order = $id_order";
         return $this->conn->query($query);
     }
+
+    public function verifyOrder($id_order){
+        $query = "UPDATE " . $this->table_name . " SET status = 'active' WHERE id_order = $id_order";
+        return $this->conn->query($query);
+    }
+
+    public function completeOrder($id_order){
+        $query = "UPDATE " . $this->table_name . " SET status = 'complete' WHERE id_order = $id_order";
+        return $this->conn->query($query);
+    }
 }
-
-
 ?>

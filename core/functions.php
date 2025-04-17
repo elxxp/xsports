@@ -33,5 +33,4 @@ function tanggalClean($tanggal){
     ];
 
     echo $hari_indonesia[$hari] . ", $tgl " . $bulan_indonesia[$bulan] . " $tahun";
-
 }

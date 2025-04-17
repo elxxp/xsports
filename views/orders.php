@@ -22,13 +22,13 @@ $getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' OR
 
     <div id="alertContainer">
         <?php if(@$_COOKIE['cancelSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-99 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1">
+            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1">
                 <i class="fa-solid fa-circle-check mr-2"></i>Berhasil membatalkan pesanan
             </div>
         <?php endif; ?>
 
         <?php if(@$_COOKIE['cancelFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-99 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1">
+            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1">
                 <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
             </div>
         <?php endif; ?>

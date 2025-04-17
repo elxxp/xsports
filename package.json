@@ -1,7 +1,28 @@
 {
   "dependencies": {
     "@tailwindcss/cli": "^4.1.3",
-    "simple-datatables": "^10.0.0",
-    "tailwindcss": "^4.1.3"
-  }
+    "simple-datatables": "^10.0.0"
+  },
+  "name": "xsports",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "tailwind-scrollbar": "^4.0.2",
+    "tailwindcss": "^4.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elxxp/xsports.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elxxp/xsports/issues"
+  },
+  "homepage": "https://github.com/elxxp/xsports#readme",
+  "description": ""
 }

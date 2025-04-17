@@ -22,7 +22,7 @@ while ($row = $result->fetch_assoc()) {
 
     // Tampilkan gambar inline base64 jika tersedia
     if (!empty($row['bukti'])) {
-        $type = "image/jpeg"; // Default, bisa kamu ubah sesuai jenis file
+        $type = "image/jpeg/jpg"; // Default, bisa kamu ubah sesuai jenis file
         $base64 = base64_encode($row['bukti']);
         echo "<td><img src='data:$type;base64,$base64' width='100'></td>";
     } else {
