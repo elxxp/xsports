@@ -1,5 +1,7 @@
 <?php
 session_start();
+require '../core/functions.php';
+levelFilter();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -708,4 +710,5 @@ session_start();
     </section>
 
 </body>
+<?php require '../_partials/footer.html'; ?>
 </html>

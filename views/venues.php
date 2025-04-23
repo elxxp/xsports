@@ -1,12 +1,12 @@
 <?php
 session_start();
 require '../core/App.php';
+require '../core/functions.php';
+levelFilter();
 
-$db = new Database();
-$conn = $db->get();
+$venue = new Venue();
 
-
-$venues = $conn->query("SELECT * FROM venues ORDER BY venue ASC");
+$venues = $venue->getDataVenues();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,14 +83,11 @@ $venues = $conn->query("SELECT * FROM venues ORDER BY venue ASC");
                     <?php endforeach; ?>
 
             </div>
-            <div class="w-full text-center">
-                <button type="button" class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Show more</button>
-            </div>
         </div>
     </section>
 
 </body>
-<script src="../assets/js/main.js"></script>
+<?php require '../_partials/footer.html'; ?>
 </html>
 
 

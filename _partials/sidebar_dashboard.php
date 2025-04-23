@@ -1,4 +1,4 @@
-<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav class="fixed top-0 z-39 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start rtl:justify-end">
@@ -8,7 +8,7 @@
                <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
             </svg>
          </button>
-        <a href="https://flowbite.com" class="flex ms-2 md:me-24">
+        <a href="../dashboard" class="flex ms-2 md:me-24">
           <img src="../assets/images/logo.png" class="h-8 me-3" alt="FlowBite Logo"/>
           <div class="inline">
              <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Dashboard</span>
@@ -23,7 +23,7 @@
                 <img class="w-8 h-8 rounded-full" src="../assets/images/pfp-placeholder.jpg"/>
               </button>
             </div>
-            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+            <div class="z-39 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 dark:text-white" role="none">
                   <?= $_SESSION['s_nama'] ?>
@@ -47,7 +47,7 @@
   </div>
 </nav>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-38 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
       <ul class="space-y-2 font-medium">
          <li>
@@ -86,12 +86,12 @@
                    <a href="daftar_venue" class="flex items-center w-full py-2 px-4 text-gray-900 transition duration-75 rounded-lg ml-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Daftar venue</a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center w-full py-2 px-4 text-gray-900 transition duration-75 rounded-lg ml-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tambah venue</a>
+                    <a href="tambah_venue" class="flex items-center w-full py-2 px-4 text-gray-900 transition duration-75 rounded-lg ml-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tambah venue</a>
                 </li>
             </ul>
          </li>
          <li>
-            <a href="../dashboard" class="flex items-center py-2 px-3 gap-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="daftar_akun" class="flex items-center py-2 px-3 gap-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <i class="fa-regular fa-users w-7 text-center"></i>
                <span class="">Users</span>
             </a>

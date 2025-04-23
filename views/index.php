@@ -1,10 +1,11 @@
 <?php
 session_start();
-require '../core/App.php';
+require '../core/app.php';
+require '../core/functions.php';
+levelFilter();
 
 $db = new Database();
-$koneksi = $db->get();
-$venues = $koneksi->query("SELECT * FROM venues WHERE status = 'open' ORDER BY RAND() LIMIT 3");
+$venues = $db->query("SELECT * FROM venues WHERE status = 'open' ORDER BY RAND() LIMIT 3");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +19,7 @@ $venues = $koneksi->query("SELECT * FROM venues WHERE status = 'open' ORDER BY R
     <?php $current_page = "home"; require '../_partials/navbar.php'; ?>
 
     <section class="bg-bottom bg-no-repeat bg-[url(../assets/images/banner.jpg)] bg-gray-700 bg-blend-multiply h-screen">
-        <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+        <div class="pt-[15%] px-4 mx-auto max-w-screen-xl text-center">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Game On <span class="text-blue-600">Anytime</span></h1>
             <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Memberi kebebasan penuh untuk memilih waktu penyewaan lapangan sesuai kebutuhanmu. Dengan jadwal yang fleksibel dan sistem booking yang mudah, kamu tinggal pilih waktu, pesan venue, dan langsung gas main!</p>
             <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
@@ -110,6 +111,6 @@ $venues = $koneksi->query("SELECT * FROM venues WHERE status = 'open' ORDER BY R
 
 
 </body>
-<script src="../assets/js/main.js"></script>
+<?php require '../_partials/footer.html'; ?>
 </html>
 

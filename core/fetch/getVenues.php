@@ -4,9 +4,8 @@ require '../app.php';
 @$sport = $_GET['sport'];
 
 $db = new Database();
-$koneksi = $db->get();
 
-$vanues = $koneksi->query("SELECT id_venue, venue FROM venues WHERE sport = '$sport' AND status = 'open'");
+$vanues = $db->query("SELECT id_venue, venue FROM venues WHERE sport = '$sport' AND status = 'open'");
 foreach($vanues as $venue){
     $data[] = $venue;
 }

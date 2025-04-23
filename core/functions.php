@@ -34,3 +34,16 @@ function tanggalClean($tanggal){
 
     echo $hari_indonesia[$hari] . ", $tgl " . $bulan_indonesia[$bulan] . " $tahun";
 }
+
+function levelFilter(){
+    if(isset($_SESSION['level'])){
+        if($_SESSION['level'] == 'admin'){
+            header('Location: ../dashboard');
+        }
+    }
+}
+function staffOnly(){
+    if($_SESSION['level'] != 'admin'){
+        header('Location: ../views');
+    }
+}

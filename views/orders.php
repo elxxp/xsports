@@ -2,12 +2,13 @@
 session_start();
 require '../core/app.php';
 require '../core/functions.php';
+levelFilter();
 $id_user = $_SESSION['s_id'];
 
-$db = new Database();
-$koneksi = $db->get();
+$venue = new Venue();
+$order = new Order();
 
-$getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' ORDER BY waktu_order DESC");
+$getOrders = $order->getDataOrder($id_user);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +37,7 @@ $getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' OR
 
     </div>
 
-    <section class="py-8 mt-20 antialiased md:py-16">
+    <section class="min-h-screen py-8 mt-20 antialiased md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <div class="mx-auto max-w-5xl">
             <div class="gap-4 sm:flex sm:items-center sm:justify-between">
@@ -52,7 +53,7 @@ $getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' OR
                             <div class="flex flex-wrap items-top gap-y-4 py-6">
                                 <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                                     <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Venue:</dt>
-                                    <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><?= $db->getDataVenues($order['id_venue'])['venue'] ?></dd>
+                                    <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white"><?= $venue->getDataVenue($order['id_venue'])['venue'] ?></dd>
                                     <dd class="mt-1 text-xs font-normal text-gray-900 dark:text-white">Olahraga <?= ucfirst($order['sport']) ?></dd>
                                 </dl>
         
@@ -65,7 +66,7 @@ $getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' OR
                                 <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                                     <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Harga:</dt>
                                     <dd class="mt-1.5 text-base font-semibold text-emerald-600 dark:text-emerald-400">Rp, <?= number_format($order['biaya']) ?></dd>
-                                    <dd class="mt-1 text-xs font-normal text-gray-900 dark:text-white text-sm">Rp, <?= number_format($db->getDataVenues($order['id_venue'])['tarif']) ?>/jam</dd>
+                                    <dd class="mt-1 text-xs font-normal text-gray-900 dark:text-white text-sm">Rp, <?= number_format($venue->getDataVenue($order['id_venue'])['tarif']) ?>/jam</dd>
                                 </dl>
                             
                                 <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
@@ -165,7 +166,7 @@ $getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' OR
                                                 </dl>
                                                 <dl class="sm:flex items-center justify-between gap-4">
                                                     <dt class="font-normal sm:mb-0 text-gray-500 dark:text-gray-400">Venue</dt>
-                                                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end"><?= $db->getDataVenues($order['id_venue'])['venue'] ?></dd>
+                                                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end"><?= $venue->getDataVenue($order['id_venue'])['venue'] ?></dd>
                                                 </dl>
                                                 <dl class="sm:flex items-center justify-between gap-4">
                                                     <dt class="font-normal sm:mb-0 text-gray-500 dark:text-gray-400">Jadwal booking</dt>
@@ -234,43 +235,6 @@ $getOrders = $koneksi->query("SELECT * FROM orders WHERE id_user = '$id_user' OR
                     <?php endif; ?>
                 </div>
             </div>
-
-
-            <!-- <nav class="mt-6 flex items-center justify-center sm:mt-8" aria-label="Page navigation example">
-                <ul class="flex h-8 items-center -space-x-px text-sm">
-                <li>
-                    <a href="#" class="ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only">Previous</span>
-                    <svg class="h-4 w-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
-                    </svg>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                </li>
-                <li>
-                    <a href="#" class="flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                </li>
-                <li>
-                    <a href="#" aria-current="page" class="z-10 flex h-8 items-center justify-center border border-blue-300 bg-blue-50 px-3 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                </li>
-                <li>
-                    <a href="#" class="flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                </li>
-                <li>
-                    <a href="#" class="flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                </li>
-                <li>
-                    <a href="#" class="flex h-8 items-center justify-center rounded-e-lg border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only">Next</span>
-                    <svg class="h-4 w-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
-                    </svg>
-                    </a>
-                </li>
-                </ul>
-            </nav>  -->
             </div>
         </div>
     </section>

@@ -2,9 +2,9 @@
 require '../app.php';
 
 if(isset($_POST['venue_open'])){
-    $db = new Database();
+    $venue = new Venue();
 
-    if($db->openVenue($_POST['venue_open'])){
+    if($venue->openVenue($_POST['venue_open'])){
         setcookie('openVenueSuccess', 'ok', time() + 1, "/");
         header('location: ./../../dashboard/daftar_venue');
     } else {
@@ -14,9 +14,9 @@ if(isset($_POST['venue_open'])){
 } 
 
 if(isset($_POST['venue_close'])){
-    $db = new Database();
+    $venue = new Venue();
 
-    if($db->closeVenue($_POST['venue_close'])){
+    if($venue->closeVenue($_POST['venue_close'])){
         setcookie('closeVenueSuccess', 'ok', time() + 1, "/");
         header('location: ./../../dashboard/daftar_venue');
     } else {

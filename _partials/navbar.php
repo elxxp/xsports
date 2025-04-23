@@ -1,5 +1,5 @@
 <?php
-if(isset($_SESSION['user']) && isset($_SESSION['s_nama']) && isset($_SESSION['s_telp']) && isset($_SESSION['s_email']) && isset($_SESSION['level'])) {
+if(isset($_SESSION['s_id']) && isset($_SESSION['s_nama']) && isset($_SESSION['s_telp']) && isset($_SESSION['s_email']) && isset($_SESSION['level'])) {
 ?>
 
 <header>
@@ -26,11 +26,6 @@ if(isset($_SESSION['user']) && isset($_SESSION['s_nama']) && isset($_SESSION['s_
                     <li>
                         <a href="me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                     </li>
-                    <?php if($_SESSION['level'] == 'admin'): ?>
-                    <li>
-                        <a href="../views/dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                    </li>
-                    <?php endif; ?>
                     <li>
                         <a href="orders" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cek pesanan</a>
                     </li>

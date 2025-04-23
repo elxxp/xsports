@@ -1,12 +1,11 @@
 <?php
 session_start();
+require '../core/functions.php';
+levelFilter();
 
 $autofill_nama = @$_SESSION['s_nama'];
 $autofill_telp = @$_SESSION['s_telp'];
 $autofill_email = @$_SESSION['s_email'];
-
-$tanggal = @$_POST['tanggal'];
-$selectedJamMulai = @$_POST['jam_mulai'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +15,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
     <?php require '../_partials/head.html'; ?>
     <title>Booking vanue</title>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950">
+<body class="min-h-screen bg-slate-100 dark:bg-slate-950">
     <?php $current_page = "book"; require '../_partials/navbar.php'; ?> 
     <div id="alertContainer">
 
@@ -38,7 +37,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                         <div class="form mt-7">
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis olahraga</label>
-                                <select name="sport" id="sport" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <select name="sport" id="sport" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="orderGrand()">
                                     <option value="null">Pilih jenis olahraga</option>
                                     <option value="sepakbola">Sepak bola</option>
                                     <option value="futsal">Futsal</option>
@@ -50,7 +49,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                             </div>
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lapangan</label>
-                                <select name="venue" id="venue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed disabled:text-gray-400" disabled>
+                                <select name="venue" id="venue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:cursor-not-allowed disabled:text-gray-400" onchange="orderGrand()" disabled>
                                     <option value="null">Pilih lapangan</option>
                                 </select>
                             </div>
@@ -191,7 +190,7 @@ $selectedJamMulai = @$_POST['jam_mulai'];
                                 <div class="my-7">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload bukti pembayaran</label>
                                     <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" name="bukti_pembayaran" accept="image/png, image/jpeg, image/jpg"/>
-                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">IMG, PNG, JPG or JPEG (MAX. 10MB).</p>
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">IMG, PNG, JPG or JPEG.</p>
                                 </div>
 
                                 <p class="font-normal text-sm text-gray-700 dark:text-gray-400"><i class="fa-regular fa-circle-exclamation mr-2"></i>Verifikasi pembayaran paling lambat 1x24 jam</p>
