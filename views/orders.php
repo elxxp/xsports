@@ -37,7 +37,7 @@ $getOrders = $order->getDataOrder($id_user);
 
     </div>
 
-    <section class="min-h-screen py-8 mt-20 antialiased md:py-16">
+    <section class="py-8 mt-20 antialiased md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <div class="mx-auto max-w-5xl">
             <div class="gap-4 sm:flex sm:items-center sm:justify-between">
@@ -88,6 +88,10 @@ $getOrders = $order->getDataOrder($id_user);
                                         <dd class="me-2 mt-1.5 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">
                                             Dibatalkan
                                         </dd>
+                                    <?php elseif($status == 'expired'): ?>
+                                        <dd class="me-2 mt-1.5 inline-flex items-center rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                                            Verifikasi kadaluarsa
+                                        </dd>
                                     <?php endif; ?>
                                 </dl>
 
@@ -95,9 +99,14 @@ $getOrders = $order->getDataOrder($id_user);
                                     <div class="w-full grid lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
                                         <button data-modal-target="readProductModal<?= $ordinal ?>" data-modal-toggle="readProductModal<?= $ordinal ?>" class="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">Detail pesanan</a>
                                     </div>
-                                <?php elseif($status == 'complete'): ?>
+                                <?php elseif($status == 'complete' || $status == "cancel"): ?>
                                     <div class="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
                                         <a href="book?autofill_sport=<?= $order['sport'] ?>&autofill_venue=<?= $order['id_venue'] ?>" type="button" class="w-full rounded-lg bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:w-auto">Booking lagi</a>
+                                        <button data-modal-target="readProductModal<?= $ordinal ?>" data-modal-toggle="readProductModal<?= $ordinal ?>" class="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">Detail pesanan</a>
+                                    </div>
+                                <?php elseif($status == "expired"): ?>
+                                    <div class="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
+                                        <a href="book?autofill_sport=<?= $order['sport'] ?>&autofill_venue=<?= $order['id_venue'] ?>" type="button" class="w-full rounded-lg bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:w-auto">Booking ulang</a>
                                         <button data-modal-target="readProductModal<?= $ordinal ?>" data-modal-toggle="readProductModal<?= $ordinal ?>" class="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">Detail pesanan</a>
                                     </div>
                                 <?php elseif($status == 'pending'): ?>
@@ -127,11 +136,6 @@ $getOrders = $order->getDataOrder($id_user);
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php elseif($status == 'cancel'): ?>
-                                    <div class="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
-                                        <a href="book?autofill_sport=<?= $order['sport'] ?>&autofill_venue=<?= $order['id_venue'] ?>" type="button" class="w-full rounded-lg bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:w-auto">Booking lagi</a>
-                                        <button data-modal-target="readProductModal<?= $ordinal ?>" data-modal-toggle="readProductModal<?= $ordinal ?>" class="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">Detail pesanan</a>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -198,6 +202,10 @@ $getOrders = $order->getDataOrder($id_user);
                                                         <?php elseif($status == 'cancel'): ?>
                                                             <dd class="mt-1.5 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">
                                                                 Dibatalkan
+                                                            </dd>
+                                                        <?php elseif($status == 'expired'): ?>
+                                                            <dd class="mt-1.5 inline-flex items-center rounded bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-900 dark:text-gray-300">
+                                                                Verifikasi kadaluarsa
                                                             </dd>
                                                         <?php endif; ?>
                                                     </dd>

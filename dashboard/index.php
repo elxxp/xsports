@@ -8,10 +8,10 @@ $db = new Database();
 $orderPending = $db->query("SELECT COUNT(*) AS data FROM orders WHERE status = 'pending'");
 $orderActive = $db->query("SELECT COUNT(*) AS data FROM orders WHERE status = 'active'");
 $orderComplete = $db->query("SELECT COUNT(*) AS data FROM orders WHERE status = 'complete'");
-$orderCancel = $db->query("SELECT COUNT(*) AS data FROM orders WHERE status = 'cancel'");
+$orderProblem = $db->query("SELECT COUNT(*) AS data FROM orders WHERE status = 'cancel' OR status = 'expired'");
 ?>
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,9 +74,9 @@ $orderCancel = $db->query("SELECT COUNT(*) AS data FROM orders WHERE status = 'c
             <div class="flex items-center justify-start bg-white pl-15 rounded-lg shadow-sm h-32 md:h-64">
                 <div>
                     <i class="fa-light fa-cart-circle-xmark text-gray-400 mb-1 text-xl"></i>
-                    <h3 class="mb-2 text-gray-500 dark:text-gray-400">Pesanan dibatalkan</h3>
+                    <h3 class="mb-2 text-gray-500 dark:text-gray-400">Pesanan bermasalah</h3>
                     <p class="flex ml-1 text-red-600 items-end text-2xl font-bold text-gray-900 dark:text-red-500">
-                        <?= $orderCancel->fetch_assoc()['data'] ?> 
+                        <?= $orderProblem->fetch_assoc()['data'] ?> 
                         <span class="ml-2 mb-0.5 text-sm text-gray-800">Pesanan</span>
                     </p>
                     <a href="daftar_pesanan" class="transition cursor-pointer w-full inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-1 mt-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">

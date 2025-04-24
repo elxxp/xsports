@@ -1,10 +1,10 @@
 <?php
 class Database {
-    protected $host = "localhost";
-    protected $user = "root";
-    protected $pass = "";
-    protected $name = "xsports";
-    public $koneksi;
+    private $host = "localhost";
+    private $user = "root";
+    private $pass = "";
+    private $name = "xsports";
+    protected $koneksi;
 
     public function __construct() {
         $this->koneksi = new mysqli($this->host, $this->user, $this->pass, $this->name);
@@ -13,12 +13,17 @@ class Database {
             die("Koneksi gagal: " . $this->koneksi->connect_error);
         }
 
-        $update_status_sql = $sql = "UPDATE orders 
+        $update_status_orders_sql = "UPDATE orders 
                                      SET status = 'complete' 
                                      WHERE status = 'active' 
                                      AND CONCAT(tanggal_sewa, ' ', jam_selesai) < NOW()";
-
-        $this->koneksi->query($update_status_sql);
+        $this->koneksi->query($update_status_orders_sql);
+        
+        $update_expired_orders_sql = "UPDATE orders 
+                                     SET status = 'expired' 
+                                     WHERE status = 'pending' 
+                                     AND CONCAT(tanggal_sewa, ' ', jam_selesai) < NOW()";
+        $this->koneksi->query($update_expired_orders_sql);
     }
 
     public function query($query) {
@@ -32,11 +37,26 @@ class Database {
 }
 
 class Account extends Database {
-    protected $table_name = "user";
+    private $table_name = "user";
 
+    public function getDataUsers($current_id_user){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id_user != '$current_id_user' ORDER BY waktu_daftar DESC";
+        return $this->koneksi->query($query);
+    }
+    
     public function getDataUser($id_user){
         $output = $this->koneksi->query("SELECT * FROM " . $this->table_name . " WHERE id_user = '$id_user'");
         return $output->fetch_assoc();
+    }
+
+    public function deleteUser($id_user){
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_user = $id_user";
+        return $this->koneksi->query($query);
+    }
+
+    public function changeLevel($id_user, $level){
+        $query = "UPDATE " . $this->table_name . " SET level = '$level' WHERE id_user = $id_user";
+        return $this->koneksi->query($query);
     }
     
     public function login($usermail, $password) {
@@ -66,7 +86,7 @@ class Account extends Database {
 }
 
 class Order extends Database {
-    protected $table_name = "orders";
+    private $table_name = "orders";
 
     public function makeOrder($id_user, $name, $telephone, $email, $sport, $id_venue, $tanggal_sewa, $jam_mulai, $jam_selesai, $payment, $bukti, $biaya) {
         $query = "INSERT INTO " . $this->table_name . " (id_user, name, telephone, email, sport, id_venue, tanggal_sewa, jam_mulai, jam_selesai, payment, bukti, biaya, status) VALUES (
@@ -119,11 +139,16 @@ class Order extends Database {
 }
 
 class Venue extends Database {
-    protected $table_name = "venues";
+    private $table_name = "venues";
 
-    public function getDataVenues(){
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY waktu_buat DESC";
-        return $this->koneksi->query($query);
+    public function getDataVenues($filter){
+        if($filter == 'all'){
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY waktu_buat DESC";
+            return $this->koneksi->query($query);
+        } else {            
+            $query = "SELECT * FROM " . $this->table_name . " WHERE sport = '$filter' ORDER BY waktu_buat DESC";
+            return $this->koneksi->query($query);
+        }
     }
 
     public function getDataVenue($id_venue){

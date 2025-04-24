@@ -6,7 +6,7 @@ staffOnly();
 
 $venue = new Venue();
 
-$getOrders = $venue->getDataVenues();
+$getOrders = $venue->getDataVenues('all');
 ?>
 <!DOCTYPE html>
 <html lang="en" class="light">
@@ -73,7 +73,7 @@ $getOrders = $venue->getDataVenues();
     <div class="p-4 sm:ml-64">
     <div class="p-4 rounded-xl bg-white mt-14 shadow-sm">
 
-    <table id="table_verifikasi_pembayaran" class="text-xs">
+    <table id="table_daftar_venue" class="text-xs">
         <thead>
             <tr>
                 <th>
@@ -300,19 +300,16 @@ $getOrders = $venue->getDataVenues();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan=10>
+                    <td colspan=7>
                         <section>
                             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                                 <div class="mx-auto max-w-screen-sm text-center">
-                                    <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-blue-600 dark:text-blue-500"><i class="fa-solid fa-snooze"></i></h1>
-                                    <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">Tidak ada pesanan</p>
+                                    <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-blue-600 dark:text-blue-500"><i class="fa-regular fa-volleyball"></i></h1>
+                                    <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">Tidak memiliki venue</p>
                                 </div>   
                             </div>
                         </section>
                     </td>
-                    <td class="hidden"></td>
-                    <td class="hidden"></td>
-                    <td class="hidden"></td>
                     <td class="hidden"></td>
                     <td class="hidden"></td>
                     <td class="hidden"></td>
@@ -328,8 +325,8 @@ $getOrders = $venue->getDataVenues();
     </div>
 <script src="../assets/js/main.js"></script>
 <script>
-if (document.getElementById("table_verifikasi_pembayaran") && typeof simpleDatatables.DataTable !== 'undefined') {
-    const dataTable = new simpleDatatables.DataTable("#table_verifikasi_pembayaran", {
+if (document.getElementById("table_daftar_venue") && typeof simpleDatatables.DataTable !== 'undefined') {
+    const dataTable = new simpleDatatables.DataTable("#table_daftar_venue", {
         paging: true,
         perPage: 10,
         perPageSelect: [10, 15, 20, 25],

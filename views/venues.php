@@ -4,9 +4,9 @@ require '../core/App.php';
 require '../core/functions.php';
 levelFilter();
 
+$sport = (!isset($_GET['sport_filter'])) ? 'all' : $_GET['sport_filter'];
 $venue = new Venue();
-
-$venues = $venue->getDataVenues();
+$venues = $venue->getDataVenues($sport);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +20,8 @@ $venues = $venue->getDataVenues();
     <?php $current_page = "venues"; require '../_partials/navbar.php'; ?>
 
     <section class="pt-20">
-        <div class="py-4 px-4 mx-auto max-w-screen-xl text-center lg:py-8 lg:px-12">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Temukan lapangan yang cocok untuk mu</h1>
-            <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-
-            </div>
+        <div class="px-4 mx-auto max-w-screen-xl text-center lg:py-8 lg:px-12">
+            <h1 class="text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Temukan lapangan yang terbaik</h1>
         </div>
     </section>
 
@@ -32,12 +29,20 @@ $venues = $venue->getDataVenues();
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <!-- Heading & Filters -->
             <div class="mb-4 items-end justify-center space-y-4 sm:flex sm:space-y-0 md:mb-8">
-
+                <button <?= ($sport != 'all') ? 'onclick=location.href="venues" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Semua</button>
+                <!-- <span class="px-4"></span> -->
+                <button <?= ($sport != 'sepakbola') ? 'onclick=location.href="venues?sport_filter=sepakbola" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Sepak bola</button>
+                <button <?= ($sport != 'futsal') ? 'onclick=location.href="venues?sport_filter=futsal" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Futsal</button>
+                <button <?= ($sport != 'voli') ? 'onclick=location.href="venues?sport_filter=voli" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Voli</button>
+                <button <?= ($sport != 'tennis') ? 'onclick=location.href="venues?sport_filter=tennis" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Tennis</button>
+                <button <?= ($sport != 'badminton') ? 'onclick=location.href="venues?sport_filter=badminton" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Badminton</button>
+                <button <?= ($sport != 'golf') ? 'onclick=location.href="venues?sport_filter=golf" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"' : 'class="text-gray-900 border border-gray-300 focus:outline-none bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:text-white dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-600"' ?>>Golf</button>
             </div>
 
             <!-- content -->
-            <div class="mb-4 grid justify-items-center sm:grid-cols-2 md:mb-8 lg:grid-cols-3 gap-4 xl:grid-cols-4">
-                <?php foreach($venues as $venue): ?>
+            <div class="mb-4 grid justify-items-center gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3  xl:grid-cols-4">
+                <?php if($venues->num_rows > 0): ?>
+                    <?php foreach($venues as $venue): ?>
                         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 cursor-default">
                             <div>
                                 <?php if($venue['thumbnail'] == null): ?>
@@ -79,9 +84,18 @@ $venues = $venue->getDataVenues();
                                 </div>
                             </div>
                         </div>
-                
                     <?php endforeach; ?>
-
+                <?php else: ?>
+                    <section class="sm:col-span-2 md:mb-8 lg:col-span-3  xl:col-span-4">
+                        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+                            <div class="mx-auto max-w-screen-sm text-center">
+                                <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-blue-600 dark:text-blue-500"><i class="fa-regular fa-basketball-hoop"></i></h1>
+                                <p class="mb-1 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">Venue tidak tersedia</p>
+                                <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">Pastikan metode filter telah valid dan sesuai</p>
+                            </div>   
+                        </div>
+                    </section>
+                <?php endif; ?>
             </div>
         </div>
     </section>
