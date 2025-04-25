@@ -48,7 +48,7 @@ if(!($olahraga == null || $olahraga == 'null') && !($venue == null || $venue == 
             
         } else {
             foreach($cek as $data) {
-                @$listJadwal .= '<p class="text-black text-xs mt-0.5 dark:text-white">Lap. '.$data["venue"].' '.substr($data["jam_mulai"], 0, 5).' - '.substr($data["jam_selesai"], 0, 5).' Telah dibooking</p>';
+                @$listJadwal .= '<p class="text-black text-xs mt-0.5 dark:text-white">Tiket '.substr($data["jam_mulai"], 0, 5).' - '.substr($data["jam_selesai"], 0, 5).' Telah dibooking</p>';
             }
 
             $output = '
