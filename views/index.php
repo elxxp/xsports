@@ -17,6 +17,19 @@ $venues = $db->query("SELECT * FROM venues WHERE status = 'open' ORDER BY RAND()
 </head>
 <body class="bg-slate-100 dark:bg-slate-950">
     <?php $current_page = "home"; require '../_partials/navbar.php'; ?>
+    <div id="alertContainer">
+        <?php if(@$_COOKIE['editProfileSuccess']): ?>
+            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1">
+                <i class="fa-solid fa-circle-check mr-2"></i>Berhasil memperbarui informasi akun
+            </div>
+        <?php endif; ?>
+
+        <?php if(@$_COOKIE['editProfileFail']): ?>
+            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1">
+                <i class="fa-solid fa-circle-exclamation mr-2"></i>Client error, coba lagi
+            </div>
+        <?php endif; ?>
+    </div>
 
     <section class="bg-bottom bg-no-repeat bg-[url(../assets/images/banner.jpg)] bg-gray-700 bg-blend-multiply h-screen">
         <div class="pt-[15%] px-4 mx-auto max-w-screen-xl text-center">
@@ -54,7 +67,7 @@ $venues = $db->query("SELECT * FROM venues WHERE status = 'open' ORDER BY RAND()
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <!-- Heading & Filters -->
             <div class="mb-4 items-end justify-start ml-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
-                <p class="text-2xl font-bold">Rekomendasi venue</p>
+                <p class="text-2xl font-bold dark:text-white">Rekomendasi venue</p>
             </div>
 
             <!-- content -->

@@ -1,3 +1,11 @@
+<?php
+    $account = new Account(); $user = $account->getDataUser($_SESSION['s_id']);
+
+    $_SESSION['s_nama'] = $user['name'];
+    $_SESSION['s_telp'] = $user['telephone'];
+    $_SESSION['s_email'] = $user['email'];
+    $_SESSION['level'] = $user['level'];
+?>
 <nav class="fixed top-0 z-39 w-full bg-white border-b border-gray-200">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
@@ -16,13 +24,14 @@
         </a>
       </div>
       <div class="flex items-center">
-          <div class="flex items-center ms-3">
+         <div class="flex items-center ms-3">
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                 <span class="sr-only">Open user menu</span>
                 <img class="w-8 h-8 rounded-full" src="../assets/images/pfp-placeholder.jpg"/>
               </button>
             </div>
+            <button data-modal-target="confirmModalLogout" data-modal-toggle="confirmModalLogout" class="text-white ml-4 bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">Keluar</button>
             <div class="z-39 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm" id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900" role="none">
@@ -34,11 +43,14 @@
               </div>
               <ul class="py-1" role="none">
                 <li>
+                  <a data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
+                </li>
+                <li>
                   <a href="../auth/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Keluar</a>
                 </li>
               </ul>
             </div>
-          </div>
+         </div>
         </div>
     </div>
   </div>
@@ -94,14 +106,6 @@
             </a>
          </li>
       </ul>
-      <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 font-medium">
-         <li>
-            <button data-modal-target="confirmModalLogout" data-modal-toggle="confirmModalLogout" class="flex items-center cursor-pointer w-full py-2 px-3 gap-2 text-gray-900 rounded-lg hover:bg-red-100/50 group">
-               <i class="fa-regular fa-right-to-bracket w-7 text-center"></i>
-               <span class="">Logout</span>
-            </button>
-         </li>
-      </ul>
    </div>
 </aside>
 
@@ -125,4 +129,160 @@
             </div>
          </div>
    </div>
+</div>
+
+<!-- profile overview modal -->
+<div id="overviewProfileModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden pt-15 fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+    <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+        <div class="relative p-5 bg-white rounded-lg shadow  sm:p-6">
+            <div class="mb-4 rounded-t sm:mb-5">
+                <div class="flex items-center text-lg text-gray-900 md:text-xl ">
+                    <h3 class="font-semibold">
+                        Profile Overview
+                        <p class="text-xs font-normal text-gray-500 ">
+                            USER ID #<?= $user['id_user'] ?>
+                        </p>
+                    </h3>
+                </div>
+            </div>
+            <dl>
+                <div class="text-sm space-y-4 sm:space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-5   mb-4 md:mb-6">
+                    <dl class="sm:flex items-center justify-between gap-4">
+                        <dt class="font-normal sm:mb-0 text-gray-500 ">Nama lengkap</dt>
+                        <dd class="font-medium text-gray-900  sm:text-end"><?= $user['name'] ?></dd>
+                    </dl>
+                    <dl class="sm:flex items-center justify-between gap-4">
+                        <dt class="font-normal sm:mb-0 text-gray-500 ">Email</dt>
+                        <dd class="font-medium text-gray-900  sm:text-end"><?= $user['email'] ?></dd>
+                    </dl>
+                    <dl class="sm:flex items-center justify-between gap-4">
+                        <dt class="font-normal sm:mb-0 text-gray-500 ">No. Telp</dt>
+                        <dd class="font-medium text-gray-900  sm:text-end"><?= $user['telephone'] ?></dd>
+                    </dl>
+                    <dl class="sm:flex items-center justify-between gap-4">
+                        <dt class="font-normal sm:mb-0 text-gray-500 ">Password</dt>
+                        <dd data-modal-target="updatePasswordModal" data-modal-toggle="updatePasswordModal" onclick="closeOverview()" class="cursor-pointer underline font-medium text-blue-900  sm:text-end">Ubah password</dd>
+                    </dl>
+                    <dl class="sm:flex items-center justify-between gap-4">
+                        <dt class="font-normal sm:mb-0 text-gray-500 ">Akun tedaftar</dt>
+                        <dd class="font-medium text-gray-900  sm:text-end"><?= tanggalClean($user['waktu_daftar']) ?></dd>
+                    </dl>
+                </div>
+            </dl>
+
+            <div>
+                <button data-modal-target="updateProfileModal" data-modal-toggle="updateProfileModal" onclick="closeOverview()" class="cursor-pointer w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2  :bg-blue-700 focus:outline-none :ring-blue-800">
+                    Edit profile
+                </button>        
+                <button id="btnCloseOverview" data-modal-toggle="overviewProfileModal" class="cursor-pointer py-2.5 w-full px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 :ring-gray-700    :text-white :bg-gray-700">
+                    Tutup
+                </button>             
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit profile modal -->
+<div id="updateProfileModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden pt-15 fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+    <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+        <div class="relative p-5 bg-white rounded-lg shadow  sm:p-5">
+            <div class="flex items-center text-lg text-gray-900 md:text-xl ">
+                <h3 class="font-semibold">
+                    Update profile
+                    <p class="text-xs font-normal text-gray-500 ">
+                            USER ID#<?= $user['id_user'] ?>
+                        </p>
+                </h3>
+                <button type="button" id="btnCloseEditPro" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center :bg-gray-600 :text-white" data-modal-toggle="updateProfileModal">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <form id="formEditProfile" action="../core/form/updProfile" method="post">
+                <div class="grid gap-4 mb-4 sm:grid-cols-2 pt-5">
+                    <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 ">Nama lengkap</label>
+                        <input type="text" name="name" id="controlEditName" value="<?= $user['name'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5     :ring-blue-500 :border-blue-500" placeholder="<?= $user['name'] ?>" autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 ">Alamat email</label>
+                        <input type="text" name="email" id="controlEditEmail" value="<?= $user['email'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5     :ring-blue-500 :border-blue-500" placeholder="<?= $user['email'] ?>" autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 ">No. Telp</label>
+                        <input type="text" name="phone" id="controlEditPhone" value="<?= $user['telephone'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5     :ring-blue-500 :border-blue-500" placeholder="<?= $user['telephone'] ?>" autocomplete="off">
+                    </div>
+    
+                    <div id="notifEditProfileModalContainer" class="col-span-2">
+    
+                    </div>
+                </div>
+            </form>
+            <div class="flex items-center space-x-4">
+                <button data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" type="button" onclick="closeEditPro()" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  :bg-gray-700 :ring-gray-800">
+                    Kembali
+                </button>
+                <button type="button" id="btnSubmitEditProfile" onclick="EditProfile()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  :bg-blue-700 :ring-blue-800 disabled:opacity-40">
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit password modal -->
+<div id="updatePasswordModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden pt-15 fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+    <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+        <div class="relative p-5 bg-white rounded-lg shadow  sm:p-5">
+            <div class="flex items-center text-lg text-gray-900 md:text-xl ">
+                <h3 class="font-semibold">
+                    Update password
+                    <p class="text-xs font-normal text-gray-500 ">
+                            USER ID#<?= $user['id_user'] ?>
+                        </p>
+                </h3>
+                <button type="button" id="btnCloseEditPass" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center :bg-gray-600 :text-white" data-modal-toggle="updatePasswordModal">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <div class="grid gap-4 mb-4 sm:grid-cols-1 pt-5">
+                <div class="col-span-1">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 ">Password lama</label>
+                    <input type="password" name="passOld" id="controlEditPassOld" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5     :ring-blue-500 :border-blue-500" placeholder="Masukan password sebelumnya" autocomplete="off">
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 ">Buat password baru (min. 8)</label>
+                    <input type="password" name="passCurr" id="controlEditPassCurr" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5     :ring-blue-500 :border-blue-500" placeholder="Buat password" autocomplete="off">
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 ">Konfirmasi password</label>
+                    <input type="password" id="controlEditPassConfirm" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5     :ring-blue-500 :border-blue-500" placeholder="Masukan ulang password" autocomplete="off">
+
+                    <div class="flex items-center justify-between mt-2 ml-1">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="show" aria-describedby="show" type="checkbox" onclick="showEditPassword('controlEditPassOld', 'controlEditPassCurr')" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300   :ring-blue-600 ">
+                            </div>
+                            <div class="ml-2 text-sm">
+                                <label for="show" class="text-gray-500 ">Show password</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="notifEditPasswordModalContainer" class="col-span-1">
+
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" type="button" onclick="closeEditPass()" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  :bg-gray-700 :ring-gray-800">
+                    Kembali
+                </button>
+                <button type="button" id="btnSubmitEditPassword" onclick="EditPassword()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  :bg-blue-700 :ring-blue-800 disabled:opacity-40">
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -49,6 +49,25 @@ class Account extends Database {
         return $output->fetch_assoc();
     }
 
+    public function editUser($id_user, $name, $usermail, $phone){
+        $query = "UPDATE " . $this->table_name . " SET name = '$name', email = '$usermail', telephone = '$phone' WHERE id_user = $id_user";
+        return $this->koneksi->query($query);
+    }
+
+    public function editPassword($id_user, $passwordOld, $passwordNew){
+        if($this->cekPassword($id_user, $passwordOld)->num_rows > 0){
+            $query = "UPDATE " . $this->table_name . " SET password = '$passwordNew' WHERE id_user = $id_user";
+            return $this->koneksi->query($query);
+        } else {
+            return false;
+        }
+    }
+
+    private function cekPassword($id_user, $passwordOld){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id_user = '$id_user' AND password = '$passwordOld'";
+        return $this->koneksi->query($query);
+    }
+
     public function deleteUser($id_user){
         $query = "DELETE FROM " . $this->table_name . " WHERE id_user = $id_user";
         return $this->koneksi->query($query);

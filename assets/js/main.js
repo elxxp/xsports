@@ -413,3 +413,132 @@ function getTarif(){
         });
 }
 
+
+
+
+
+
+function closeOverview(){
+    document.getElementById('btnCloseOverview').click()
+}
+function closeEditPro(){
+    document.getElementById('btnCloseEditPro').click()
+}
+function closeEditPass(){
+    document.getElementById('btnCloseEditPass').click()
+}
+function isValidEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+function EditProfile() {
+    const container = document.getElementById('notifEditProfileModalContainer')
+    let nama = document.getElementById('controlEditName').value;
+    let email = document.getElementById('controlEditEmail').value;
+    let phone = document.getElementById('controlEditPhone').value;
+    
+    buttonLoading("btnSubmitEditProfile", "Update");
+    container.innerHTML = ""
+    
+    setTimeout(function () {
+
+        if(nama != ""){
+            if(email != ""){
+                if(isValidEmail(email)){
+                    if(phone != ""){
+                        if(phone.length > 10 && phone.length < 14){
+
+                            container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-check mr-2"></i>Profile berhasil diperbarui, menyegarkan ulang...</div>'
+                            submitForm('formEditProfile', 'btnSubmitEditProfile', 'Update')
+                
+                        } else {
+                            container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Masukan nomor telepon yang valid</div>'
+                            buttonUnloading('btnSubmitEditProfile', 'Update')
+                        }
+                    } else {
+                        container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Masukan nomor telepon terlebih dahulu</div>'
+                        buttonUnloading('btnSubmitEditProfile', 'Update')
+                    }
+                } else {
+                    container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Masukan alamat email yang valid</div>'
+                    buttonUnloading('btnSubmitEditProfile', 'Update')
+                }
+            } else {
+                container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Masukan alamat email terlebih dahulu</div>'
+                buttonUnloading('btnSubmitEditProfile', 'Update')
+            }
+        } else {
+            container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Masukan nama lengkap terlebih dahulu</div>'
+            buttonUnloading('btnSubmitEditProfile', 'Update')
+        }
+
+    }, 1000)
+
+}
+function showEditPassword(id1, id2){
+    let input1 = document.getElementById(id1);
+    let input2 = document.getElementById(id2);
+
+    if (input1.type === "password") {
+        input1.type = "text";
+        input2.type = "text";
+    } else {
+        input1.type = "password";
+        input2.type = "password";
+    }
+}
+function EditPassword(){
+    const container = document.getElementById('notifEditPasswordModalContainer')
+    let passOld = document.getElementById('controlEditPassOld').value;
+    let passCurr = document.getElementById('controlEditPassCurr').value;
+    let passConfirm = document.getElementById('controlEditPassConfirm').value;
+
+    buttonLoading("btnSubmitEditPassword", "Update");
+    container.innerHTML = ""
+
+    setTimeout( function () {
+        if(passOld != ""){
+            if(passCurr.length >= 8 ){
+                if(passCurr == passConfirm){
+                    buttonUnloading('btnSubmitEditPassword', 'Update')
+    
+    
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "../core/form/updPassword", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            
+                            if(xhr.responseText == 'true'){
+                                container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-check mr-2"></i>Berhasil memperbarui password, silahkan login ulang</div>'
+                                setTimeout( function () {
+                                    location.href = '../auth/login'
+                                }, 2000)
+
+                            } else {
+                                container.innerHTML = xhr.responseText;
+                                buttonUnloading("btnSubmitEditPassword", "Update");
+                            }
+    
+                        }
+                    };
+                    xhr.send("passOld=" + encodeURIComponent(passOld) + "&passCurr=" + encodeURIComponent(passCurr));
+                
+    
+                } else {
+                    container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Konfirmasi password harus cocok dengan password baru</div>'
+                    buttonUnloading('btnSubmitEditPassword', 'Update')
+                }
+            } else {
+                container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Buat password minimal 8 karakter atau lebih</div>'
+                buttonUnloading('btnSubmitEditPassword', 'Update')
+            }
+        } else {            
+            container.innerHTML = '<div class="font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1"><i class="fa-solid fa-circle-exclamation mr-2"></i>Masukan password lama terlebih dahulu</div>'
+            buttonUnloading('btnSubmitEditPassword', 'Update')
+        }
+    }, 1000)
+
+}
+
+
