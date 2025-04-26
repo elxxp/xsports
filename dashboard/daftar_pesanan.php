@@ -4,11 +4,41 @@ require '../core/app.php';
 require '../core/functions.php';
 staffOnly();
 
+if(isset($_POST['order'])){
+    $orderCRUD = new Order();
+    if($orderCRUD->deleteOrder($_POST['order'])){
+        $notif =
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil dihapus
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
+if(isset($_POST['order_force'])){
+    $orderCRUD = new Order();
+    if($orderCRUD->cancelOrder($_POST['order_force'])){
+        $notif =
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil dibatalkan
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
 $order = new Order();
 $venue = new venue();
 $account = new Account();
-
 $getOrders = $order->getDataOrders();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,30 +52,7 @@ $getOrders = $order->getDataOrders();
     <?php require '../_partials/sidebar_dashboard.php'; ?>
 
     <div id="alertContainer">
-        <?php if(@$_COOKIE['deleteSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil dihapus
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['deleteFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['cancelSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil dibatalkan
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['cancelFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-
+        <?= @$notif ?>
     </div>
 
     <!-- content -->
@@ -181,7 +188,7 @@ $getOrders = $order->getDataOrders();
                                             <p class="mb-2 mt-1 font-semibold text-gray-500 "><i class="fa-regular fa-triangle-exclamation mx-2"></i>Hapus pesanan <span class="font-bold">#<?= $order['id_order'] ?></span> ?</p>
                                             <p class="mb-5 ml-2 text-sm text-gray-500 ">Pesanan yang dihapus tidak dapat dikembalikan kembali, dan data seluruh pesanan termasuk kontak penyewa juga akan terhapus. Yakin menghapus?</p>
                                             <div class="flex justify-end items-center space-x-2">
-                                                <form action="../core/form/deleteOrder" method="post">
+                                                <form method="post">
                                                     <input type="hidden" name="order" value="<?= $order['id_order'] ?>">
                                                     <button data-modal-toggle="confirmModal<?= $ordinal ?>" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-slate-300 hover:text-gray-900 focus:z-10    :text-white :bg-gray-600 :ring-gray-600">
                                                         kembali
@@ -209,7 +216,7 @@ $getOrders = $order->getDataOrders();
                                             <p class="mb-2 mt-1 font-semibold text-gray-500 "><i class="fa-regular fa-triangle-exclamation mx-2"></i>Batalkan pesanan aktif <span class="font-bold">#<?= $order['id_order'] ?></span> ?</p>
                                             <p class="mb-5 ml-2 text-sm text-gray-500 ">Pesanan yang dibatalkan saat aktif tidak dapat dikembalikan kembali. Yakin membatalkan pesanan?</p>
                                             <div class="flex justify-end items-center space-x-2">
-                                                <form action="../core/form/cancelOrder" method="post">
+                                                <form method="post">
                                                     <input type="hidden" name="order_force" value="<?= $order['id_order'] ?>">
                                                     <button data-modal-toggle="confirmModal<?= $ordinal ?>" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-slate-300 hover:text-gray-900 focus:z-10    :text-white :bg-gray-600 :ring-gray-600">
                                                         kembali

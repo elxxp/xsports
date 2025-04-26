@@ -29,7 +29,8 @@ if(isset($_SESSION['s_id']) && isset($_SESSION['s_nama']) && isset($_SESSION['s_
                     <div class="font-medium truncate"><?= $_SESSION['s_email'] ?></div>
                     </div>
                     <div class="py-2">
-                    <a data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                    <a data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                    <a href="../auth/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar</a>
                     </div>
                 </div>
 

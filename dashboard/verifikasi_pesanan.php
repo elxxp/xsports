@@ -4,10 +4,39 @@ require '../core/app.php';
 require '../core/functions.php';
 staffOnly();
 
+if(isset($_POST['id_order_true'])){
+    $orderCRUD = new Order();
+    if($orderCRUD->verifyOrder($_POST['id_order_true'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil diverifikasi
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+if(isset($_POST['id_order_false'])){
+    $orderCRUD = new Order();
+    if($orderCRUD->cancelOrder($_POST['id_order_false'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil dibatalkan
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
 $order = new Order();
 $venue = new Venue();
-
 $getOrders = $order->getDataPendingOrders();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,28 +50,7 @@ $getOrders = $order->getDataPendingOrders();
     <?php require '../_partials/sidebar_dashboard.php'; ?>
 
     <div id="alertContainer">
-        <?php if(@$_COOKIE['verifySuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil diverifikasi
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['verifyFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-        <?php if(@$_COOKIE['cancelSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Pesanan berhasil dibatalkan
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['cencelFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
+        <?= @$notif ?>
     </div>
 
     <!-- content -->
@@ -202,13 +210,13 @@ $getOrders = $order->getDataPendingOrders();
                                         </dl>
 
                                         <div>
-                                            <form action="../core/form/verOrder" method="post">
+                                            <form method="post">
                                                 <input type="hidden" name="id_order_true" value="<?= $order['id_order'] ?>">
                                                 <button class="mb-1 cursor-pointer py-2.5 w-full px-5 text-sm font-medium text-white focus:outline-none bg-blue-600 rounded-lg border border-blue-200 focus:z-10 focus:ring-4 focus:ring-gray-200 :ring-blue-800  ">
                                                     Tandai verifikasi berhasil 
                                                 </button>             
                                             </form>
-                                            <form action="../core/form/verOrder" method="post">
+                                            <form method="post">
                                                 <input type="hidden" name="id_order_false" value="<?= $order['id_order'] ?>">
                                                 <button class="mb-1 cursor-pointer py-2.5 w-full px-5 text-sm font-medium text-white focus:outline-none bg-red-600 rounded-lg border border-red-200 focus:z-10 focus:ring-4 focus:ring-gray-200 :ring-red-800  ">
                                                     Tandai verifikasi gagal

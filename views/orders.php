@@ -5,9 +5,23 @@ require '../core/functions.php';
 levelFilter();
 $id_user = $_SESSION['s_id'];
 
+if(isset($_POST['order'])){
+    $orderCRUD = new Order();
+    if($orderCRUD->cancelOrder($_POST['order'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Berhasil membatalkan pesanan
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
 $venue = new Venue();
 $order = new Order();
-
 $getOrders = $order->getDataOrder($id_user);
 ?>
 <!DOCTYPE html>
@@ -22,19 +36,7 @@ $getOrders = $order->getDataOrder($id_user);
     <?php require '../_partials/navbar.php'; ?>
 
     <div id="alertContainer">
-        <?php if(@$_COOKIE['cancelSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 dark:bg-green-700/20 border border-green-300  dark:text-green-600 dark:border-green-500 rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Berhasil membatalkan pesanan
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['cancelFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 dark:bg-red-700/20 border border-red-300  dark:text-red-600 dark:border-red-500 rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-
-
+        <?= @$notif ?>
     </div>
 
     <section class="py-8 mt-20 antialiased md:py-16">
@@ -127,7 +129,7 @@ $getOrders = $order->getDataOrder($id_user);
                                                 <p class="mb-2 mt-1 font-semibold text-gray-500 dark:text-gray-300"><i class="fa-regular fa-triangle-exclamation mx-2"></i>Batalkan pesanan?</p>
                                                 <p class="mb-5 ml-2 text-sm text-gray-500 dark:text-gray-300">Pesanan yang dibatalkan tidak dapat dikembalikan kembali, dan beresiko masalah proses pembayaran.</p>
                                                 <div class="flex justify-end items-center space-x-2">
-                                                    <form action="../core/form/cancelOrder" method="post">
+                                                    <form method="post">
                                                         <input type="hidden" name="order" value="<?= $order['id_order'] ?>">
                                                         <button class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
                                                             batalkan booking

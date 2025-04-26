@@ -4,8 +4,52 @@ require '../core/app.php';
 require '../core/functions.php';
 staffOnly();
 
-$venue = new Venue();
+if(isset($_POST['venue_open'])){
+    $venueCRUD = new Venue();
+    if($venueCRUD->openVenue($_POST['venue_open'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Venue berhasil di buka kembali
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
 
+if(isset($_POST['venue_close'])){
+    $venueCRUD = new Venue();
+    if($venueCRUD->closeVenue($_POST['venue_close'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Venue berhasil di tutup
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
+if(isset($_POST['venue_delete'])){
+    $venueCRUD = new Venue();
+    if($venueCRUD->deleteVenue($_POST['venue_delete'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Venue berhasil di hapus
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
+$venue = new Venue();
 $getOrders = $venue->getDataVenues('all');
 ?>
 <!DOCTYPE html>
@@ -20,41 +64,7 @@ $getOrders = $venue->getDataVenues('all');
     <?php require '../_partials/sidebar_dashboard.php'; ?>
 
     <div id="alertContainer">
-        <?php if(@$_COOKIE['openVenueSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Venue berhasil di buka kembali
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['openVenueFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['closeVenueSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Venue berhasil di tutup
-            </div>
-        <?php endif; ?>
-        
-        <?php if(@$_COOKIE['closeVenueFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['deleteVenueSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Venue berhasil di hapus
-            </div>
-        <?php endif; ?>
-        
-        <?php if(@$_COOKIE['deleteVenueFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
+        <?= @$notif ?>        
         
         <?php if(@$_COOKIE['makeVenueSuccess']): ?>
             <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
@@ -224,7 +234,7 @@ $getOrders = $venue->getDataVenues('all');
                                             <p class="mb-2 mt-1 font-semibold text-gray-500 "><i class="fa-regular fa-triangle-exclamation mx-2"></i>Tutup pesanan venue <span class="font-bold">#<?= $order['id_venue'] ?></span> ?</p>
                                             <p class="mb-5 ml-2 text-sm text-gray-500 ">Venue akan tidak dapat menerima pesanan booking selama status venue close order. Lanjutkan?</p>
                                             <div class="flex justify-end items-center space-x-2">
-                                                <form action="../core/form/updStatusVenue" method="post">
+                                                <form method="post">
                                                     <input type="hidden" name="venue_close" value="<?= $order['id_venue'] ?>">
                                                     <button data-modal-toggle="confirmModalSet<?= $ordinal ?>" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-slate-300 hover:text-gray-900 focus:z-10    :text-white :bg-gray-600 :ring-gray-600">
                                                         kembali
@@ -252,7 +262,7 @@ $getOrders = $venue->getDataVenues('all');
                                             <p class="mb-2 mt-1 font-semibold text-gray-500 "><i class="fa-regular fa-triangle-exclamation mx-2"></i>Buka pesanan venue <span class="font-bold">#<?= $order['id_venue'] ?></span> ?</p>
                                             <p class="mb-5 ml-2 text-sm text-gray-500 ">Venue akan dapat menerima pesanan booking selama status venue open order. Lanjutkan?</p>
                                             <div class="flex justify-end items-center space-x-2">
-                                                <form action="../core/form/updStatusVenue" method="post">
+                                                <form method="post">
                                                     <input type="hidden" name="venue_open" value="<?= $order['id_venue'] ?>">
                                                     <button data-modal-toggle="confirmModalSet<?= $ordinal ?>" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-slate-300 hover:text-gray-900 focus:z-10    :text-white :bg-gray-600 :ring-gray-600">
                                                         kembali
@@ -280,7 +290,7 @@ $getOrders = $venue->getDataVenues('all');
                                         <p class="mb-2 mt-1 font-semibold text-gray-500 "><i class="fa-regular fa-triangle-exclamation mx-2"></i>Hapus venue <span class="font-bold">#<?= $order['id_venue'] ?></span> ?</p>
                                         <p class="mb-5 ml-2 text-sm text-gray-500 ">Pesanan yang terkait dangan venue #<?= $order['id_venue'] ?> akan ikut terhapus dari daftar pesanan dan tidak dapat dikembalikan. Lanjutkan?</p>
                                         <div class="flex justify-end items-center space-x-2">
-                                            <form action="../core/form/deleteVenue" method="post">
+                                            <form method="post">
                                                 <input type="hidden" name="venue_delete" value="<?= $order['id_venue'] ?>">
                                                 <button data-modal-toggle="confirmModalDelete<?= $ordinal ?>" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-slate-300 hover:text-gray-900 focus:z-10    :text-white :bg-gray-600 :ring-gray-600">
                                                     kembali

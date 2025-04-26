@@ -31,7 +31,7 @@
                 <img class="w-8 h-8 rounded-full" src="../assets/images/pfp-placeholder.jpg"/>
               </button>
             </div>
-            <button data-modal-target="confirmModalLogout" data-modal-toggle="confirmModalLogout" class="text-white ml-4 bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">Keluar</button>
+            <button data-modal-target="confirmModalLogout" data-modal-toggle="confirmModalLogout" class="cursor-pointer transition text-white ml-4 bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">Keluar</button>
             <div class="z-39 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm" id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900" role="none">
@@ -43,10 +43,7 @@
               </div>
               <ul class="py-1" role="none">
                 <li>
-                  <a data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
-                </li>
-                <li>
-                  <a href="../auth/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Keluar</a>
+                  <a data-modal-target="overviewProfileModal" data-modal-toggle="overviewProfileModal" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
                 </li>
               </ul>
             </div>

@@ -62,6 +62,7 @@ $venue = new Venue();
 </head>
 <body class="bg-slate-100 ">
     <?php require '../_partials/sidebar_dashboard.php'; ?>
+    
     <div id="alertContainer">
         <?= @$notif ?>
     </div>

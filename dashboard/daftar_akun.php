@@ -4,8 +4,37 @@ require '../core/app.php';
 require '../core/functions.php';
 staffOnly();
 
-$account = new Account();
+if(isset($_POST['level']) && isset($_POST['user'])){
+    $accountCRUD = new Account();
+    if($accountCRUD->changeLevel($_POST['user'], $_POST['level'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Level akun berhasil dimodifikasi
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
 
+if(isset($_POST['account'])){
+    $accountCRUD = new Account();
+    if($accountCRUD->deleteUser($_POST['account'])){
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-check mr-2"></i>Akun berhasil dihapus
+        </div>';
+    } else {
+        $notif = 
+        '<div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
+        </div>';
+    }
+} 
+
+$account = new Account();
 $getUsers = $account->getDataUsers($_SESSION['s_id']);
 ?>
 <!DOCTYPE html>
@@ -18,30 +47,9 @@ $getUsers = $account->getDataUsers($_SESSION['s_id']);
 </head>
 <body class="bg-slate-100 ">
     <?php require '../_partials/sidebar_dashboard.php'; ?>
+    
     <div id="alertContainer">
-        <?php if(@$_COOKIE['deleteSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Akun berhasil dihapus
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['deleteFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['updateSuccess']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-green-600 bg-green-400/20 /20 border border-green-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-check mr-2"></i>Level akun berhasil dimodifikasi
-            </div>
-        <?php endif; ?>
-
-        <?php if(@$_COOKIE['updateFail']): ?>
-            <div id="alertNontification" class="alertIn fixed z-30 inset-x-0 mx-auto top-20 font-bold flex items-center justify-center w-fit text-xs text-red-600 bg-red-400/20 /20 border border-red-300    rounded-lg px-3.5 py-2 mb-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i>Terjadi kesalahan, coba lagi
-            </div>
-        <?php endif; ?>
+        <?= @$notif ?>
     </div>
 
     <!-- content -->
@@ -99,7 +107,7 @@ $getUsers = $account->getDataUsers($_SESSION['s_id']);
                             <td><?= $user['telephone'] ?></td>
                             <td><?= $user['waktu_daftar'] ?></td>
                             <td>
-                                <form action="../core/form/updLevelUser" method="post">
+                                <form method="post">
                                     <input type="hidden" name="user" value="<?= $user['id_user'] ?>">
                                     <select onchange="this.form.submit()" name="level" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5     :ring-blue-500 :border-blue-500">
                                         <option <?= ($user['level'] == 'guest') ? 'selected' : '' ?> value="guest">Guest</option>
@@ -122,7 +130,7 @@ $getUsers = $account->getDataUsers($_SESSION['s_id']);
                                             <p class="mb-2 mt-1 font-semibold text-gray-500 "><i class="fa-regular fa-triangle-exclamation mx-2"></i>Hapus akun <span class="font-bold">#<?= $user['id_user'] ?></span> ?</p>
                                             <p class="mb-5 ml-2 text-sm text-gray-500 ">Akun yang dihapus tidak dapat dikembalikan kembali, dan data seluruh pesanan yang terkait dengan akun #<?= $user['id_user'] ?> juga akan terhapus. Yakin menghapus?</p>
                                             <div class="flex justify-end items-center space-x-2">
-                                                <form action="../core/form/deleteAccount" method="post">
+                                                <form method="post">
                                                     <input type="hidden" name="account" value="<?= $user['id_user'] ?>">
                                                     <button data-modal-toggle="confirmModalDelete<?= $ordinal ?>" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-slate-300 hover:text-gray-900 focus:z-10    :text-white :bg-gray-600 :ring-gray-600">
                                                         kembali
