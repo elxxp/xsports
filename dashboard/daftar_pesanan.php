@@ -106,7 +106,7 @@ $getOrders = $order->getDataOrders();
         </thead>
         <tbody>
             <?php if($getOrders->num_rows > 0): ?>
-                <?php $ordinal = 0; foreach($getOrders as $order): $ordinal++; $status = $order['status']; $bukti_tipe_file = "image/jpeg"; $bukti_data = base64_encode($order['bukti']); ?>
+                <?php $ordinal = 0; foreach($getOrders as $order): $ordinal++; $status = $order['status']; $bukti_tipe_file = "image/jpeg"; $bukti_data = @base64_encode($order['bukti']); ?>
 
                     <tr>
                         <td class="font-medium text-gray-900 whitespace-nowrap ">#<?= $order['id_order'] ?></td>
